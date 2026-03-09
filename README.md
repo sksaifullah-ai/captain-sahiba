@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>To The Girl Who Was Born To Touch The Sky</title>
-
 <style>
 /* ===== BODY ===== */
 body{
@@ -24,35 +23,27 @@ body{
   justify-content:center;
   align-items:center;
   text-align:center;
-  padding:20px;
+  padding:2%;
 }
 
 .hidden{display:none}
 
 /* ===== TITLE & MESSAGES ===== */
 h1{
-  font-size: clamp(24px,5vw,48px); /* responsive */
+  font-size:clamp(24px,5vw,48px);
   color:#333;
   letter-spacing:1px;
   text-align:center;
+  margin:0.5em 0;
 }
 
 .message{
-  width: clamp(80%,65%,90%);
-  font-size: clamp(16px,4vw,24px);
+  width:clamp(80%,65%,90%);
+  font-size:clamp(16px,4vw,24px);
   line-height:1.9;
   color:#333;
   font-weight:bold;
-}
-
-.line{
-  opacity:0;
-  transform:translateY(10px);
-  animation:fadeUp 1s forwards;
-}
-
-@keyframes fadeUp{
-  to{opacity:1;transform:translateY(0)}
+  text-align:center;
 }
 
 /* ===== PETALS ===== */
@@ -78,7 +69,7 @@ h1{
 /* ===== HAMSTER BUTTON ===== */
 #hamsterContainer{
   position:absolute;
-  bottom:80px;
+  bottom:clamp(50px,5vh,80px);
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -87,7 +78,7 @@ h1{
 }
 
 #hamster{
-  font-size: clamp(28px,8vw,54px); /* responsive */
+  font-size:clamp(28px,8vw,54px);
   animation:hamRun 0.6s infinite alternate;
 }
 
@@ -115,14 +106,6 @@ h1{
   letter-spacing:1px;
 }
 
-.glow{display:none;}
-
-@keyframes glowPulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.15)}
-  100%{transform:scale(1)}
-}
-
 /* ===== FIREWORKS ===== */
 .firework{
   position:absolute;
@@ -135,7 +118,7 @@ h1{
   100%{transform:scale(2);opacity:0}
 }
 
-/* ===== MEDIA QUERIES (PHONES) ===== */
+/* ===== MEDIA QUERIES ===== */
 @media (max-width:600px){
   h1{ font-size: clamp(20px,7vw,38px); }
   .message{ font-size: clamp(14px,4vw,20px); width:90%; }
@@ -144,7 +127,6 @@ h1{
 }
 </style>
 </head>
-
 <body>
 
 <!-- SLIDE 1 -->
@@ -173,6 +155,7 @@ const slide2=document.getElementById("slide2")
 const finalSlide=document.getElementById("final")
 const messageBox=document.getElementById("message")
 let dodges=0
+
 const lines=[
   "Dear Captain Sahiba,",
   "You have stood strong through everything and worked so hard to reach this point.",
@@ -212,30 +195,42 @@ document.addEventListener("mousemove",e=>{
   }
 })
 
+/* HAMSTER CLICK TRIGGERS MESSAGE */
 hamster.addEventListener("click",()=>{
   slide1.classList.add("hidden")
   slide2.classList.remove("hidden")
-  showLines()
+  typeMessage(lines)
 })
 
-/* MESSAGE SEQUENCE */
-function showLines(){
-  let i=0
-  function next(){
-    if(i>=lines.length){
-      setTimeout(showFinal,2200)
+/* ===== TYPING EFFECT ===== */
+function typeMessage(lines){
+  let lineIndex=0
+  function typeLine(){
+    if(lineIndex>=lines.length){
+      setTimeout(showFinal,1200)
       return
     }
+    let line=lines[lineIndex]
+    let charIndex=0
     const p=document.createElement("div")
-    p.className="line"
-    p.textContent=lines[i]
     messageBox.appendChild(p)
-    i++
-    setTimeout(next,1800)
+    function typeChar(){
+      if(charIndex<line.length){
+        p.innerHTML+=line[charIndex]
+        charIndex++
+        setTimeout(typeChar,50)
+      } else {
+        p.innerHTML+="<br>"
+        lineIndex++
+        setTimeout(typeLine,400)
+      }
+    }
+    typeChar()
   }
-  next()
+  typeLine()
 }
 
+/* FINAL SLIDE */
 function showFinal(){
   slide2.classList.add("hidden")
   finalSlide.classList.remove("hidden")
