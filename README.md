@@ -202,32 +202,35 @@ hamster.addEventListener("click",()=>{
   typeMessage(lines)
 })
 
-/* ===== TYPING EFFECT ===== */
+/* ===== TYPING EFFECT - NATURAL ===== */
 function typeMessage(lines){
-  let lineIndex=0
+  let lineIndex = 0;
   function typeLine(){
-    if(lineIndex>=lines.length){
-      setTimeout(showFinal,1200)
-      return
+    if(lineIndex >= lines.length){
+      setTimeout(showFinal, 1200);
+      return;
     }
-    let line=lines[lineIndex]
-    let charIndex=0
-    const p=document.createElement("div")
-    messageBox.appendChild(p)
+    let line = lines[lineIndex];
+    let charIndex = 0;
+    const p = document.createElement("div");
+    messageBox.appendChild(p);
+
     function typeChar(){
-      if(charIndex<line.length){
-        p.innerHTML+=line[charIndex]
-        charIndex++
-        setTimeout(typeChar,50)
+      if(charIndex < line.length){
+        p.innerHTML += line[charIndex];
+        charIndex++;
+        const delay = 40 + Math.random() * 20; // 40-60ms typing speed
+        setTimeout(typeChar, delay);
       } else {
-        p.innerHTML+="<br>"
-        lineIndex++
-        setTimeout(typeLine,400)
+        p.innerHTML += "<br>";
+        const linePause = 700 + Math.random() * 200; // 700-900ms pause after line
+        lineIndex++;
+        setTimeout(typeLine, linePause);
       }
     }
-    typeChar()
+    typeChar();
   }
-  typeLine()
+  typeLine();
 }
 
 /* FINAL SLIDE */
@@ -250,14 +253,14 @@ function launchFireworks(){
   },200)
 }
 
-/* PETALS */
+/* PETALS - SMALLER SIZE */
 function createPetal(){
   const p=document.createElement("div")
   p.className="petal"
   p.innerHTML="🌸"
-  p.style.left=Math.random()*window.innerWidth+"px"
-  p.style.fontSize=(window.innerWidth/25 + Math.random()*5)+"px" // responsive size
-  p.style.animationDuration=(6+Math.random()*5)+"s"
+  p.style.left = Math.random()*window.innerWidth+"px"
+  p.style.fontSize = (window.innerWidth/50 + Math.random()*4)+"px"
+  p.style.animationDuration = (6 + Math.random()*5)+"s"
   document.body.appendChild(p)
   setTimeout(()=>p.remove(),11000)
 }
